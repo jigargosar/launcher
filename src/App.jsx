@@ -4,7 +4,7 @@ import debug from 'debug'
 
 const log = debug('app:App.jsx:')
 
-function getCmdList() {
+function getMainItems() {
   return [
     //
     { title: 'Show Date' },
@@ -18,12 +18,12 @@ function getCmdList() {
   ]
 }
 export function App() {
-  const cmdList = getCmdList()
+  const mainItems = getMainItems()
   return (
     <div className="lh-copy measure-wide center">
       <div className="pv3 b ttu">Launcher</div>
       <div>
-        {cmdList.map((cmd, idx) => {
+        {mainItems.map((cmd, idx) => {
           return (
             <div
               key={idx}
