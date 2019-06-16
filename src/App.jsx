@@ -9,6 +9,7 @@ import pipe from 'ramda/es/pipe'
 import add from 'ramda/es/add'
 import mathMod from 'ramda/es/mathMod'
 import identity from 'ramda/es/identity'
+import isHotKey from 'is-hotkey'
 
 const overProp = propName => over(lensProp(propName))
 const nop = () => {}
@@ -73,16 +74,20 @@ const useStateEffect = initialState => update => {
   return [get, send]
 }
 
+const useHotKey = keys => handler => {
+  useKey(isHotKey(keys), handler, {}, [])
+}
+
 export function App() {
   const [get, send] = useStateEffect(initialState)(update)
   const hlIdx = get().hlIdx
   const cmdList = get().items
 
-  useKey('ArrowDown', () => {
+  useHotKey(['down', 'j'])(() => {
     send(Msg.INC)
   })
 
-  useKey('ArrowUp', () => {
+  useHotKey(['up', 'k'])(() => {
     send(Msg.DEC)
   })
 
