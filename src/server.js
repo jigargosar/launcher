@@ -10,6 +10,11 @@ app.get('/', (req, res) => {
   res.send({ msg: 'Hello World!' })
 })
 
+// app.get('/links', (req, res) => {
+//   res.json({ msg2: 'Hello World!' })
+//   // res.send({ msg: 'Hello World!' })
+// })
+
 app.listen(port, () =>
   console.log(`Example app listening on port ${port}!`),
 )
