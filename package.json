@@ -16,7 +16,7 @@
     "endOfLine": "lf"
   },
   "scripts": {
-    "start": "nodemon -w yarn.lock -w package-lock.json -w webpack.config.js -x webpack-dev-server -- --mode development"
+    "start": "nodemon -w package-lock.json -w webpack.config.js -x webpack-dev-server -- --mode development"
   },
   "keywords": [],
   "author": "",

@@ -3,7 +3,6 @@
 const debug = require('debug')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
 
 const log = debug('app:webpack')
 const pth = path.resolve
@@ -20,7 +19,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css/,
+        test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
@@ -60,17 +59,17 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       // title: 'Launcher',
     }),
   ],
-  devtool: 'cheap-module-source-map',
+  // devtool: 'cheap-module-source-map',
+  devtool: 'eval-source-map',
   devServer: {
     contentBase: './src',
     historyApiFallback: true,
-    inline: true,
-    stats: 'errors-only',
+    stats: 'minimal',
+    // stats: 'errors-only',
     hot: true,
   },
 }

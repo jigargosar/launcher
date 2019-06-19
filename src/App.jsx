@@ -16,6 +16,24 @@ const nop = () => {}
 
 const log = debug('app:App.jsx:')
 
+const Cmd = {
+  run: () => cmd => log(cmd),
+  none: nop,
+}
+
+const useStateEffect = initialState => update => {
+  const [get, set] = useGetSet(initialState)
+  const send = useCallback(
+    msg => {
+      const [nextState, cmd] = update(msg)(get())
+      set(nextState)
+      Cmd.run(send)(cmd)
+    },
+    [get, set, update],
+  )
+  return [get, send]
+}
+
 const initialState = {
   hlIdx: 0,
   items: [
@@ -24,9 +42,6 @@ const initialState = {
     { title: 'Show Time' },
     {
       title: 'Web Bookmarks',
-      onSelect: () => {
-        log('Show bookmarks list')
-      },
     },
   ],
 }
@@ -54,24 +69,6 @@ const update = msg => state => {
     INC: () => [rollHlIdxBy(1)(state), Cmd.none],
     DEC: () => [rollHlIdxBy(-1)(state), Cmd.none],
   })
-}
-
-const Cmd = {
-  run: () => cmd => log(cmd),
-  none: nop,
-}
-
-const useStateEffect = initialState => update => {
-  const [get, set] = useGetSet(initialState)
-  const send = useCallback(
-    msg => {
-      const [nextState, cmd] = update(msg)(get())
-      set(nextState)
-      Cmd.run(send)(cmd)
-    },
-    [get, set, update],
-  )
-  return [get, send]
 }
 
 const useHotKey = keys => handler => {
@@ -105,7 +102,6 @@ export function App() {
                 'pointer pa1 ba mv1',
                 isHighlighted ? 'bg-light-gray' : '',
               )}
-              onClick={() => cmd.onSelect && cmd.onSelect()}
             >
               {cmd.title}
             </div>
