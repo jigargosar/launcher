@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useCallback } from 'react'
 import debug from 'debug'
 import { useKey, useGetSet } from 'react-use'
@@ -41,7 +42,10 @@ const initialState = {
     { title: 'Show Date' },
     { title: 'Show Time' },
     {
-      title: 'Web Bookmarks',
+      title: 'Gmail',
+      run: () => {
+        console.log('opening gmail')
+      },
     },
   ],
 }
