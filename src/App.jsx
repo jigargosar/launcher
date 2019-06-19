@@ -11,6 +11,7 @@ import add from 'ramda/es/add'
 import mathMod from 'ramda/es/mathMod'
 import identity from 'ramda/es/identity'
 import isHotKey from 'is-hotkey'
+import ky from 'ky'
 
 const overProp = propName => over(lensProp(propName))
 const nop = () => {}
@@ -45,6 +46,9 @@ const initialState = {
       title: 'Gmail',
       run: () => {
         console.log('opening gmail')
+        const target = 'https://mail.google.com/mail/u/0'
+        ky.post('//localhost:8081/opn', { searchParams: { target } })
+        // fetch({url:'localhost:8081', })
       },
     },
   ],
@@ -106,6 +110,7 @@ export function App() {
                 'pointer pa1 ba mv1',
                 isHighlighted ? 'bg-light-gray' : '',
               )}
+              onClick={() => cmd.run && cmd.run()}
             >
               {cmd.title}
             </div>

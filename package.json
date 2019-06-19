@@ -54,6 +54,7 @@
     "webpack-dev-server": "^3.7.1"
   },
   "dependencies": {
+    "ky": "^0.11.1",
     "open": "^6.3.0"
   }
 }
