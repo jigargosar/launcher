@@ -80,11 +80,11 @@ export function App() {
   const hlIdx = get().hlIdx
   const cmdList = get().items
 
-  useHotKey(['down', 'j'])(() => {
+  useHotKey(['down', 'shift+j'])(() => {
     send(Msg.INC)
   })
 
-  useHotKey(['up', 'k'])(() => {
+  useHotKey(['up', 'shift+k'])(() => {
     send(Msg.DEC)
   })
 
