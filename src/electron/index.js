@@ -1,13 +1,11 @@
-/* eslint-disable no-console */
-
 try {
   require('electron-reloader')(module, { debug: true })
   // eslint-disable-next-line no-empty
 } catch (_) {}
 
-/* eslint-disable no-console */
+const log = require('electron-log')
 
-console.log('loading index5')
+log.info('Launcher App: Main Required')
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
@@ -16,6 +14,8 @@ const path = require('path')
 const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
+  log.warn('Exiting: Another Instance Already Running!')
+
   app.quit()
 } else {
   // Keep a global reference of the window object, if you don't, the window will
@@ -35,9 +35,6 @@ if (!gotTheLock) {
 
   // eslint-disable-next-line no-inner-declarations
   function createWindow() {
-    const logPath = app.getPath('logs')
-
-    console.log('log-path', logPath)
     // Create the browser window.
     mainWindow = new BrowserWindow({
       width: 800,
