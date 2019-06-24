@@ -5,11 +5,13 @@ try {
 
 const log = require('electron-log')
 
-log.info('Launcher App: Main Required')
-
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
+
+log.info('Launcher App: Main Required')
+log.info('app.getPath -> userData: ', app.getPath('userData'))
+log.info('app.getName()', app.getName())
 
 const gotTheLock = app.requestSingleInstanceLock()
 
