@@ -15,7 +15,7 @@ log.info('app.getName()', app.getName())
 const gotTheLock = app.requestSingleInstanceLock()
 
 if (!gotTheLock) {
-  log.warn('Exiting: Another Instance Already Running!')
+  log.warn('Exiting: Another Instance Already Running!', process.pid)
 
   app.quit()
 } else {
