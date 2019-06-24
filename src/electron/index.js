@@ -1,13 +1,12 @@
+// Modules to control application life and create native browser window
+const { app, BrowserWindow } = require('electron')
+const path = require('path')
+const log = require('electron-log')
+
 try {
   require('electron-reloader')(module, { debug: true })
   // eslint-disable-next-line no-empty
 } catch (_) {}
-
-const log = require('electron-log')
-
-// Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
-const path = require('path')
 
 log.info('Launcher App: Main Required')
 log.info('app.getPath -> userData: ', app.getPath('userData'))
