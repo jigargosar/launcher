@@ -4,12 +4,12 @@ const path = require('path')
 const log = require('electron-log')
 const debug = require('electron-debug')
 
-try {
-  require('electron-reloader')(module, { debug: true })
-  // eslint-disable-next-line no-empty
-} catch (_) {}
+// try {
+//   require('electron-reloader')(module, { debug: true })
+//   // eslint-disable-next-line no-empty
+// } catch (_) {}
 
-log.info('Launcher App: Main Required')
+log.info('Launcher App: Main Required', process.pid)
 log.info('app.getPath -> userData: ', app.getPath('userData'))
 log.info('app.getName()', app.getName())
 

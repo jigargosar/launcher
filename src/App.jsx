@@ -98,9 +98,14 @@ export function App() {
   })
 
   useEffect(() => {
+    const readClip = () => remote.clipboard.readText()
+    let prev = readClip()
     const intervalId = setInterval(() => {
-      //
-      false && console.log('api.clipboard', remote.clipboard)
+      const next = readClip()
+      if (prev !== next) {
+        console.log('clip changed:', next)
+        prev = next
+      }
     }, 500)
     return () => clearInterval(intervalId)
   }, [])
