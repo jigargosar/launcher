@@ -70,8 +70,10 @@ if (!gotTheLock) {
       mainWindow = null
     })
 
-    globalShortcut.unregisterAll()
-    globalShortcut.register('Ctrl+Alt+Space', () => {
+    const globalHotKeyAcc = 'Ctrl+Alt+Space'
+    globalShortcut.unregister(globalHotKeyAcc)
+    // globalShortcut.unregisterAll()
+    globalShortcut.register(globalHotKeyAcc, () => {
       // Do stuff when Y and either Command/Control is pressed.
       if (mainWindow) {
         if (mainWindow.isFocused()) {
