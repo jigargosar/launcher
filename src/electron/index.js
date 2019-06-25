@@ -84,6 +84,14 @@ if (!gotTheLock) {
     })
   }
 
+  app.on('will-quit', () => {
+    // Unregister a shortcut.
+    // globalShortcut.unregister('CommandOrControl+X')
+
+    // Unregister all shortcuts.
+    globalShortcut.unregisterAll()
+  })
+
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
