@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, globalShortcut } = require('electron')
 const path = require('path')
 const log = require('electron-log')
 const debug = require('electron-debug')
@@ -47,7 +47,13 @@ if (!gotTheLock) {
       webPreferences: {
         // preload: path.join(__dirname, 'preload.js'),
       },
+      show: false,
     })
+    // setTimeout(() => mainWindow.minimize(), 0)
+    setTimeout(() => {
+      mainWindow.showInactive()
+      mainWindow.minimize()
+    }, 0)
 
     // and load the index.html of the app.
     false && mainWindow.loadFile(path.join(__dirname, 'index.html'))
@@ -62,6 +68,19 @@ if (!gotTheLock) {
       // in an array if your app supports multi windows, this is the time
       // when you should delete the corresponding element.
       mainWindow = null
+    })
+
+    globalShortcut.unregisterAll()
+    globalShortcut.register('Ctrl+Alt+Space', () => {
+      // Do stuff when Y and either Command/Control is pressed.
+      if (mainWindow) {
+        if (mainWindow.isFocused()) {
+          mainWindow.minimize()
+        } else if (mainWindow.isMinimized()) {
+          mainWindow.restore()
+          mainWindow.focus()
+        }
+      }
     })
   }
 
