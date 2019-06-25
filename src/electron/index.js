@@ -45,12 +45,13 @@ if (!gotTheLock) {
       // frame: false,
       // alwaysOnTop: true,
       webPreferences: {
-        preload: path.join(__dirname, 'preload.js'),
+        // preload: path.join(__dirname, 'preload.js'),
       },
     })
 
     // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, 'index.html'))
+    false && mainWindow.loadFile(path.join(__dirname, 'index.html'))
+    mainWindow.loadURL('http://localhost:8080')
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
