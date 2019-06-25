@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import debug from 'debug'
 import { useKey, useGetSet } from 'react-use'
 import cx from 'clsx'
@@ -12,7 +12,8 @@ import mathMod from 'ramda/es/mathMod'
 import identity from 'ramda/es/identity'
 import isHotKey from 'is-hotkey'
 import ky from 'ky'
-
+// import { api } from 'electron-util'
+import { remote } from 'electron'
 const overProp = propName => over(lensProp(propName))
 const nop = () => {}
 
@@ -95,6 +96,14 @@ export function App() {
   useHotKey(['up', 'shift+k'])(() => {
     send(Msg.DEC)
   })
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //
+      false && console.log('api.clipboard', remote.clipboard)
+    }, 500)
+    return () => clearInterval(intervalId)
+  }, [])
 
   return (
     <div className="lh-copy measure-wide center">

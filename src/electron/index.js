@@ -45,7 +45,7 @@ if (!gotTheLock) {
       // frame: false,
       // alwaysOnTop: true,
       webPreferences: {
-        // preload: path.join(__dirname, 'preload.js'),
+        preload: path.join(__dirname, 'preload.js'),
       },
       show: false,
     })
@@ -78,8 +78,10 @@ if (!gotTheLock) {
       if (mainWindow) {
         if (mainWindow.isFocused()) {
           mainWindow.minimize()
-        } else if (mainWindow.isMinimized()) {
-          mainWindow.restore()
+        } else {
+          if (mainWindow.isMinimized()) {
+            mainWindow.restore()
+          }
           mainWindow.focus()
         }
       }
