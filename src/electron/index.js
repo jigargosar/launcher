@@ -4,11 +4,6 @@ const path = require('path')
 const log = require('electron-log')
 const debug = require('electron-debug')
 
-// try {
-//   require('electron-reloader')(module, { debug: true })
-//   // eslint-disable-next-line no-empty
-// } catch (_) {}
-
 log.info('Launcher App: Main Required', process.pid)
 log.info('app.getPath -> userData: ', app.getPath('userData'))
 log.info('app.getName()', app.getName())
@@ -20,6 +15,11 @@ if (!gotTheLock) {
 
   app.quit()
 } else {
+  try {
+    require('electron-reloader')(module, { debug: true })
+    // eslint-disable-next-line no-empty
+  } catch (_) {}
+
   false && debug()
   // Keep a global reference of the window object, if you don't, the window will
   // be closed automatically when the JavaScript object is garbage collected.
