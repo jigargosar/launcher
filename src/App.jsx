@@ -90,6 +90,10 @@ const Msg = taggedSum('Msg', {
   OnHlClipSelected: [],
 })
 
+const minimizeCurrentWindowCmd = Cmd.of(() => {
+  remote.getCurrentWindow().minimize()
+})
+
 const writeClipTxtCmd = txt =>
   Cmd.of(() => remote.clipboard.writeText(txt))
 
@@ -125,7 +129,11 @@ const update = msg => state => {
       ),
     OnHlClipSelected: () => [
       state,
-      writeClipTxtCmd(state.clips[state.hlIdx]),
+      Cmd.batch([
+        //
+        writeClipTxtCmd(state.clips[state.hlIdx]),
+        minimizeCurrentWindowCmd,
+      ]),
     ],
   })
 }
