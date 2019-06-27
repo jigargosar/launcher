@@ -70,7 +70,7 @@ const Msg = taggedSum('Msg', {
 
 const update = msg => state => {
   const rollHlIdxBy = offset => {
-    const totalItems = state.items.length
+    const totalItems = state.clips.length
     if (totalItems === 0) {
       return identity
     }
@@ -98,7 +98,7 @@ const useHotKey = keys => handler => {
 export function App() {
   const [get, send] = useStateEffect(initialState)(update)
   const hlIdx = get().hlIdx
-  const cmdList = get().items
+  const clips = get().clips
 
   useHotKey(['down', 'shift+j'])(() => {
     send(Msg.INC)
@@ -120,7 +120,7 @@ export function App() {
       <div className="pv3 b ttu">Launcher</div>
       <div className="pv2">Input: {`<type to filter>`}</div>
       <div>
-        {cmdList.map((cmd, idx) => {
+        {clips.map((clipTxt, idx) => {
           const isHighlighted = idx === hlIdx
           return (
             <div
@@ -129,9 +129,8 @@ export function App() {
                 'pointer pa1 ba mv1',
                 isHighlighted ? 'bg-light-gray' : '',
               )}
-              onClick={() => cmd.run && cmd.run()}
             >
-              {cmd.title}
+              {clipTxt}
             </div>
           )
         })}
