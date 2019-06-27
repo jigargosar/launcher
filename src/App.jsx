@@ -69,12 +69,13 @@ const Msg = taggedSum('Msg', {
 })
 
 const update = msg => state => {
+  const overHlIdx = overProp('hlIdx')
   const rollHlIdxBy = offset => {
     const totalItems = state.clips.length
     if (totalItems === 0) {
       return identity
     }
-    return overProp('hlIdx')(
+    return overHlIdx(
       pipe(
         //
         add(offset),
@@ -84,10 +85,19 @@ const update = msg => state => {
   }
   const pure = s => [s, Cmd.none]
   const overClips = overProp('clips')
+  const prependNewClip = txt => overClips(prepend(txt))
+  const resetHlIdx = overHlIdx(() => 0)
   return msg.cata({
     INC: () => [rollHlIdxBy(1)(state), Cmd.none],
     DEC: () => [rollHlIdxBy(-1)(state), Cmd.none],
-    OnClipChange: txt => pure(overClips(prepend(txt))(state)),
+    OnClipChange: txt =>
+      pure(
+        pipe(
+          //
+          prependNewClip(txt),
+          resetHlIdx,
+        )(state),
+      ),
   })
 }
 
