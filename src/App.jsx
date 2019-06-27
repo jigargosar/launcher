@@ -97,18 +97,7 @@ export function App() {
     send(Msg.DEC)
   })
 
-  useEffect(() => {
-    const readClip = () => remote.clipboard.readText()
-    let prev = readClip()
-    const intervalId = setInterval(() => {
-      const next = readClip()
-      if (prev !== next) {
-        console.log('clip changed:', next)
-        prev = next
-      }
-    }, 500)
-    return () => clearInterval(intervalId)
-  }, [])
+  useClip()
 
   return (
     <div className="lh-copy measure-wide center">
@@ -133,4 +122,18 @@ export function App() {
       </div>
     </div>
   )
+}
+function useClip() {
+  useEffect(() => {
+    const readClip = () => remote.clipboard.readText()
+    let prev = readClip()
+    const intervalId = setInterval(() => {
+      const next = readClip()
+      if (prev !== next) {
+        console.log('clip changed:', next)
+        prev = next
+      }
+    }, 500)
+    return () => clearInterval(intervalId)
+  }, [])
 }
