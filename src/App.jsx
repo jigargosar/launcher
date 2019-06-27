@@ -40,6 +40,10 @@ const Command = (() => {
       invariant(Command.is(cmd))
       cmd.fn(send)
     },
+    batch: cmds => {
+      invariant(is(Array, cmds))
+      return Cmd.of(send => cmds.forEach(Cmd.run(send)))
+    },
   }
   Object.assign(Command, Command$static)
   return Command
