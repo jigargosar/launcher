@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import React, { useCallback, useEffect } from 'react'
 import debug from 'debug'
+import Kefir from 'kefir'
 import { useKey, useGetSet } from 'react-use'
 import cx from 'clsx'
 import { taggedSum } from 'daggy'
@@ -18,6 +19,10 @@ const overProp = propName => over(lensProp(propName))
 const nop = () => {}
 
 const log = debug('app:App.jsx:')
+
+const clipText$ = Kefir.withInterval(500, emitter =>
+  emitter.value(remote.clipboard.readText()),
+).skipDuplicates()
 
 const Cmd = {
   run: () => cmd => log(cmd),
@@ -97,7 +102,9 @@ export function App() {
     send(Msg.DEC)
   })
 
-  useClip()
+  useEffect(() => {
+    clipText$.spy('clip')
+  }, [])
 
   return (
     <div className="lh-copy measure-wide center">

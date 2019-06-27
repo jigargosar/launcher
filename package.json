@@ -28,6 +28,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
+    "@types/kefir": "^3.8.2",
     "@types/nanoid": "^2.0.0",
     "@types/ramda": "^0.26.9",
     "@types/react": "^16.8.20",
@@ -64,6 +65,7 @@
     "electron-debug": "^3.0.0",
     "electron-log": "^3.0.6",
     "electron-util": "^0.12.1",
+    "kefir": "^3.8.6",
     "ky": "^0.11.1",
     "open": "^6.3.0"
   }
