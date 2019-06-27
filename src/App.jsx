@@ -82,13 +82,12 @@ const update = msg => state => {
       ),
     )
   }
+  const pure = s => [s, Cmd.none]
+  const overClips = overProp('clips')
   return msg.cata({
     INC: () => [rollHlIdxBy(1)(state), Cmd.none],
     DEC: () => [rollHlIdxBy(-1)(state), Cmd.none],
-    OnClipChange: txt => [
-      overProp('clips')(prepend(txt))(state),
-      Cmd.none,
-    ],
+    OnClipChange: txt => pure(overClips(prepend(txt))(state)),
   })
 }
 
