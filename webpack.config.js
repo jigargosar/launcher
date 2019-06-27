@@ -72,5 +72,6 @@ module.exports = {
     stats: 'minimal',
     // stats: 'errors-only',
     hot: true,
+    overlay: true,
   },
 }
