@@ -17,9 +17,10 @@
     "endOfLine": "lf"
   },
   "scripts": {
-    "start": "nodemon -w package-lock.json -w webpack.config.js -x webpack-dev-server -- --mode development",
-    "start:server": "nodemon -w src/server.js -x node -- src/server.js",
-    "start:electron": "electron src/electron-main.js"
+    "start": "concurrently npm:start:*",
+    "start:electron-renderer": "nodemon -w package-lock.json -w webpack.config.js -x webpack-dev-server -- --mode development",
+    "_start:server": "nodemon -w src/server.js -x node -- src/server.js",
+    "start:electron-main": "electron src/electron/index.js"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +34,7 @@
     "@types/react-dom": "^16.8.4",
     "babel-loader": "^8.0.6",
     "clsx": "^1.0.4",
+    "concurrently": "^4.1.1",
     "css-loader": "^3.0.0",
     "daggy": "^1.4.0",
     "debug-menu": "^0.6.1",
