@@ -26,7 +26,7 @@ const clipText$ = Kefir.withInterval(500, emitter =>
 ).skipDuplicates()
 
 const Cmd = {
-  run: () => cmd => log(cmd),
+  run: () => cmd => log('Cmd.run=>', cmd),
   none: nop,
 }
 
