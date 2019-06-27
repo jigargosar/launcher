@@ -15,6 +15,7 @@ import isHotKey from 'is-hotkey'
 import ky from 'ky'
 // import { api } from 'electron-util'
 import { remote } from 'electron'
+import prepend from 'ramda/es/prepend'
 const overProp = propName => over(lensProp(propName))
 const nop = () => {}
 
@@ -44,6 +45,7 @@ const useStateEffect = initialState => update => {
 
 const initialState = {
   hlIdx: 0,
+  clips: [],
   items: [
     //
     { title: 'Show Date' },
@@ -63,6 +65,7 @@ const initialState = {
 const Msg = taggedSum('Msg', {
   INC: [],
   DEC: [],
+  OnClipChange: ['value'],
 })
 
 const update = msg => state => {
@@ -82,6 +85,10 @@ const update = msg => state => {
   return msg.cata({
     INC: () => [rollHlIdxBy(1)(state), Cmd.none],
     DEC: () => [rollHlIdxBy(-1)(state), Cmd.none],
+    OnClipChange: txt => [
+      overProp('clips')(prepend(txt))(state),
+      Cmd.none,
+    ],
   })
 }
 
@@ -102,8 +109,10 @@ export function App() {
     send(Msg.DEC)
   })
 
+  console.log(get())
   useEffect(() => {
-    clipText$.spy('clip')
+    const sub = clipText$.observe(txt => send(Msg.OnClipChange(txt)))
+    return () => sub.unsubscribe()
   }, [])
 
   return (
@@ -129,18 +138,4 @@ export function App() {
       </div>
     </div>
   )
-}
-function useClip() {
-  useEffect(() => {
-    const readClip = () => remote.clipboard.readText()
-    let prev = readClip()
-    const intervalId = setInterval(() => {
-      const next = readClip()
-      if (prev !== next) {
-        console.log('clip changed:', next)
-        prev = next
-      }
-    }, 500)
-    return () => clearInterval(intervalId)
-  }, [])
 }
