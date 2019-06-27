@@ -53,7 +53,7 @@ const initialState = {
     {
       title: 'Gmail',
       run: () => {
-        console.log('opening gmail')
+        log('opening gmail')
         const target = 'https://mail.google.com/mail/u/0'
         ky.post('//localhost:8081/opn', { searchParams: { target } })
         // fetch({url:'localhost:8081', })
@@ -109,7 +109,8 @@ export function App() {
     send(Msg.DEC)
   })
 
-  console.log(get())
+  log('state changed', get())
+
   useEffect(() => {
     const sub = clipText$.observe(txt => send(Msg.OnClipChange(txt)))
     return () => sub.unsubscribe()
