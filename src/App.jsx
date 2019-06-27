@@ -4,7 +4,7 @@ import debug from 'debug'
 import Kefir from 'kefir'
 import { useKey, useGetSet } from 'react-use'
 import cx from 'clsx'
-import { taggedSum } from 'daggy'
+import { taggedSum, tagged } from 'daggy'
 import over from 'ramda/es/over'
 import lensProp from 'ramda/es/lensProp'
 import pipe from 'ramda/es/pipe'
@@ -16,19 +16,36 @@ import ky from 'ky'
 // import { api } from 'electron-util'
 import { remote } from 'electron'
 import prepend from 'ramda/es/prepend'
+import is from 'ramda/es/is'
 const overProp = propName => over(lensProp(propName))
 const nop = () => {}
+const invariant = (bool, msg = 'Invariant Failed') => {
+  if (!bool) {
+    throw new Error(msg)
+  }
+}
 
 const log = debug('app:App.jsx:')
 
-const clipText$ = Kefir.withInterval(500, emitter =>
-  emitter.value(remote.clipboard.readText()),
-).skipDuplicates()
+const Command = (() => {
+  const Command = tagged('Command', ['fn'])
+  const Command$static = {
+    of: fn => {
+      invariant(is(Function, fn))
+      return Command(fn)
+    },
+    none: Command(nop),
+    run: send => cmd => {
+      invariant(is(Function, send))
+      invariant(Command.is(cmd))
+      cmd.fn(send)
+    },
+  }
+  Object.assign(Command, Command$static)
+  return Command
+})()
 
-const Cmd = {
-  run: () => cmd => log('Cmd.run=>', cmd),
-  none: nop,
-}
+const Cmd = Command
 
 const useStateEffect = initialState => update => {
   const [get, set] = useGetSet(initialState)
@@ -125,10 +142,19 @@ export function App() {
     send(Msg.DEC)
   })
 
+  useHotKey(['enter'])(() => {
+    send(Msg.OnHlClipSelected)
+  })
+
   log('state changed', get())
 
   useEffect(() => {
-    const sub = clipText$.observe(txt => send(Msg.OnClipChange(txt)))
+    const sub = Kefir.withInterval(500, emitter =>
+      emitter.value(remote.clipboard.readText()),
+    )
+      .skipDuplicates()
+      .observe(txt => send(Msg.OnClipChange(txt)))
+
     return () => sub.unsubscribe()
   }, [])
 
@@ -146,6 +172,7 @@ export function App() {
                 'pointer pa1 ba mv1',
                 isHighlighted ? 'bg-light-gray' : '',
               )}
+              onClick={() => send(Msg.OnHlClipSelected)}
             >
               {clipTxt}
             </div>
