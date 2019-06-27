@@ -86,7 +86,8 @@ const Msg = taggedSum('Msg', {
   OnHlClipSelected: [],
 })
 
-const writeClipTxtCmd = txt => () => remote.clipboard.writeText(txt)
+const writeClipTxtCmd = txt =>
+  Cmd.of(() => remote.clipboard.writeText(txt))
 
 const update = msg => state => {
   const overHlIdx = overProp('hlIdx')
